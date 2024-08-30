@@ -1,0 +1,75 @@
+Feature: Validação de ISBN-10
+
+  Scenario: ISBN-10 válido sem hífens
+    Given que o ISBN é "1234567890"
+    When eu validar o ISBN
+    Then o resultado deve ser verdadeiro
+
+  Scenario: ISBN-10 válido com hífens
+    Given que o ISBN é "1-234-56789-0"
+    When eu validar o ISBN
+    Then o resultado deve ser verdadeiro
+
+  Scenario: ISBN-10 com comprimento incorreto (menor que 10 dígitos)
+    Given que o ISBN é "12345678"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com comprimento incorreto (maior que 10 dígitos)
+    Given que o ISBN é "12345678901"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com caracteres inválidos (não numéricos ou X)
+    Given que o ISBN é "12345X7890"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+    Given que o ISBN é "12345678Z0"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com checksum incorreto
+    Given que o ISBN é "1234567891"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com o último caractere válido
+    Given que o ISBN é "123456789X"
+    When eu validar o ISBN
+    Then o resultado deve ser verdadeiro
+
+  Scenario: ISBN-10 onde o último caractere não é X e não é um número válido
+    Given que o ISBN é "1234567897"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com x minúsculo
+    Given que o ISBN é "123456789x"
+    When eu validar o ISBN
+    Then o resultado deve ser verdadeiro
+
+  Scenario: String vazia
+    Given que o ISBN é ""
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com caracteres não numéricos
+    Given que o ISBN é "abcdefghij"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com hífens misturados
+    Given que o ISBN é "1-23-456789-0"
+    When eu validar o ISBN
+    Then o resultado deve ser verdadeiro
+
+  Scenario: ISBN-10 com espaços ao redor dos hífens
+    Given que o ISBN é "1 234 56789 0"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
+
+  Scenario: ISBN-10 com espaços dentro dos números
+    Given que o ISBN é "1234 567 890"
+    When eu validar o ISBN
+    Then o resultado deve ser falso
